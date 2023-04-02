@@ -1,7 +1,7 @@
 # Tic-tac-toe_pygame
 Tic-tac-toe using pygame
 
-Este é um simples jogo da velha, também conhecido como Tic-Tac-Toe, desenvolvido em Python usando a linguagem de programação orientada a objetos, utilizando a biblioteca Pygame.
+Este é um simples jogo da velha, também conhecido como Tic-Tac-Toe, desenvolvido em Python usando a biblioteca Pygame.
 
 O jogo consiste em um tabuleiro 3x3, no qual dois jogadores (X e O) alternam turnos para preencher as casas vazias do tabuleiro. O objetivo é preencher uma linha, uma coluna ou uma diagonal completa com os símbolos de um jogador antes que o adversário o faça. Se todas as casas forem preenchidas e nenhum jogador vencer, o jogo termina em empate.
 
