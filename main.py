@@ -20,12 +20,12 @@ def show_board(board, screen):
             if value == Stats.Player_X:
                 x = square_positions[i * 3 + j][0] + SQUARE_SIZE // 2
                 y = square_positions[i * 3 + j][1] + SQUARE_SIZE // 2
-                pygame.draw.line(screen, BLACK, (x - 20, y - 20), (x + 20, y + 20), LINE_WIDTH)
-                pygame.draw.line(screen, BLACK, (x - 20, y + 20), (x + 20, y - 20), LINE_WIDTH)
+                pygame.draw.line(screen, RED, (x - 20, y - 20), (x + 20, y + 20), LINE_WIDTH)
+                pygame.draw.line(screen, RED, (x - 20, y + 20), (x + 20, y - 20), LINE_WIDTH)
             elif value == Stats.Player_O:
                 x = square_positions[i * 3 + j][0] + SQUARE_SIZE // 2
                 y = square_positions[i * 3 + j][1] + SQUARE_SIZE // 2
-                pygame.draw.circle(screen, BLACK, (x, y), SQUARE_SIZE // 5, LINE_WIDTH)
+                pygame.draw.circle(screen, GRAY, (x, y), SQUARE_SIZE // 5, LINE_WIDTH)
 
 
 # Definir cores
@@ -35,6 +35,7 @@ RED = (255, 0, 0)
 GREEN = (0, 128, 0)
 DARKGREEN = (0, 100, 0)
 FORESTGREEN = (34, 139, 34)
+GRAY = (64, 64, 64)
 
 # iniciando o pygame
 pygame.init()
@@ -109,6 +110,8 @@ player_one_turn = True
 while True:
     show_board(board, screen)
     pygame.display.update()
+    moves = [((0, 0), 0), ((0, 1), 1), ((0, 2), 2), ((1, 0), 3), ((1, 1), 4), ((1, 2), 5), ((2, 0), 6),
+             ((2, 1), 7), ((2, 2), 8)]
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             pygame.quit()
@@ -124,26 +127,9 @@ while True:
                     # Verifique se o clique do mouse está dentro de um dos retângulos
                     mouse_pos = pygame.mouse.get_pos()
                     mov_1 = -1
-                    for i, rect in enumerate(rects):
-                        if rect.collidepoint(mouse_pos):
-                            if i == 0:
-                                mov_1 = board.insert(0, 0, player_one)
-                            elif i == 1:
-                                mov_1 = board.insert(0, 1, player_one)
-                            elif i == 2:
-                                mov_1 = board.insert(0, 2, player_one)
-                            elif i == 3:
-                                mov_1 = board.insert(1, 0, player_one)
-                            elif i == 4:
-                                mov_1 = board.insert(1, 1, player_one)
-                            elif i == 5:
-                                mov_1 = board.insert(1, 2, player_one)
-                            elif i == 6:
-                                mov_1 = board.insert(2, 0, player_one)
-                            elif i == 7:
-                                mov_1 = board.insert(2, 1, player_one)
-                            elif i == 8:
-                                mov_1 = board.insert(2, 2, player_one)
+                    for coord, index in moves:
+                        if rects[index].collidepoint(mouse_pos):
+                            mov_1 = board.insert(*coord, player_one)
                             if mov_1 == -1:
                                 cont = 1
                             else:
@@ -160,26 +146,14 @@ while True:
                     # Verifique se o clique do mouse está dentro de um dos retângulos
                     mouse_pos = pygame.mouse.get_pos()
                     mov_2 = -1
-                    for i, rect in enumerate(rects):
-                        if rect.collidepoint(mouse_pos):
-                            if i == 0:
-                                mov_2 = board.insert(0, 0, player_two)
-                            elif i == 1:
-                                mov_2 = board.insert(0, 1, player_two)
-                            elif i == 2:
-                                mov_2 = board.insert(0, 2, player_two)
-                            elif i == 3:
-                                mov_2 = board.insert(1, 0, player_two)
-                            elif i == 4:
-                                mov_2 = board.insert(1, 1, player_two)
-                            elif i == 5:
-                                mov_2 = board.insert(1, 2, player_two)
-                            elif i == 6:
-                                mov_2 = board.insert(2, 0, player_two)
-                            elif i == 7:
-                                mov_2 = board.insert(2, 1, player_two)
-                            elif i == 8:
-                                mov_2 = board.insert(2, 2, player_two)
+                    moves = [((0, 0), 0), ((0, 1), 1), ((0, 2), 2), ((1, 0), 3), ((1, 1), 4), ((1, 2), 5), ((2, 0), 6),
+                             ((2, 1), 7), ((2, 2), 8)]
+
+                    for coord, index in moves:
+                        if rects[index].collidepoint(mouse_pos):
+                            mov_2 = board.insert(*coord, player_two)
+                            if mov_2 == -1:
+                                cont = 1
                             cont = 0
                 # Mudar para a vez do jogador um
                 player_one_turn = True
@@ -188,6 +162,9 @@ while True:
             if board.has_winner() != Stats.EMPTY or board.check_tie():
                 winner = board.has_winner()
                 if winner == player_one:
+                    show_board(board, screen)
+                    pygame.display.update()
+
                     # Criando o pop-up com tkinter
                     root = tk.Tk()
                     root.withdraw()
@@ -201,6 +178,9 @@ while True:
                     pygame.display.update()
                     print("Jogador 1 venceu!")
                 elif winner == player_two:
+                    show_board(board, screen)
+                    pygame.display.update()
+
                     # Criando o pop-up com tkinter
                     root = tk.Tk()
                     root.withdraw()
@@ -214,6 +194,9 @@ while True:
                     pygame.display.update()
                     print("Jogador 2 venceu!")
                 else:
+                    show_board(board, screen)
+                    pygame.display.update()
+
                     # Criando o pop-up com tkinter
                     root = tk.Tk()
                     root.withdraw()
