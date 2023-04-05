@@ -26,6 +26,12 @@ def show_board(board, screen):
                 x = square_positions[i * 3 + j][0] + SQUARE_SIZE // 2
                 y = square_positions[i * 3 + j][1] + SQUARE_SIZE // 2
                 pygame.draw.circle(screen, GRAY, (x, y), SQUARE_SIZE // 5, LINE_WIDTH)
+            else:
+                x = square_positions[i * 3 + j][0] + SQUARE_SIZE // 2
+                y = square_positions[i * 3 + j][1] + SQUARE_SIZE // 2
+                pygame.draw.line(screen, GREEN, (x - 20, y - 20), (x + 20, y + 20), LINE_WIDTH)
+                pygame.draw.line(screen, GREEN, (x - 20, y + 20), (x + 20, y - 20), LINE_WIDTH)
+                pygame.draw.circle(screen, GREEN, (x, y), SQUARE_SIZE // 5, LINE_WIDTH)
 
 
 # Definir cores
@@ -161,6 +167,7 @@ while True:
                 # Verificar se o jogo acabou
             if board.has_winner() != Stats.EMPTY or board.check_tie():
                 winner = board.has_winner()
+
                 if winner == player_one:
                     show_board(board, screen)
                     pygame.display.update()
@@ -172,8 +179,8 @@ while True:
                     root.destroy()
 
                     # Resetando o tabuleiro
-                    board.reset_board()
                     board = GameBoard()
+                    pygame.display.update()
                     show_board(board, screen)
                     pygame.display.update()
                     print("Jogador 1 venceu!")
@@ -188,8 +195,8 @@ while True:
                     root.destroy()
 
                     # Resetando o tabuleiro
-                    board.reset_board()
                     board = GameBoard()
+                    pygame.display.update()
                     show_board(board, screen)
                     pygame.display.update()
                     print("Jogador 2 venceu!")
@@ -204,10 +211,15 @@ while True:
                     root.destroy()
 
                     # Resetando o tabuleiro
-                    board.reset_board()
                     board = GameBoard()
+                    pygame.display.update()
                     show_board(board, screen)
                     pygame.display.update()
                     print("Empate!")
-                pygame.quit()
-                exit()
+
+                # Resetando o tabuleiro
+                board = GameBoard()
+                pygame.display.update()
+                show_board(board, screen)
+                pygame.display.update()
+
