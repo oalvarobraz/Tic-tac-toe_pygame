@@ -195,13 +195,29 @@ while True:
                 pygame.display.update()
                 moves = [((0, 0), 0), ((0, 1), 1), ((0, 2), 2), ((1, 0), 3), ((1, 1), 4), ((1, 2), 5), ((2, 0), 6),
                          ((2, 1), 7), ((2, 2), 8)]
+
+                # Definindo fonte
+                f = pygame.font.Font(None, 24)
+
+                button = pygame.Rect(40, 660, 85, 50)
+
+                text3 = f.render("Home", True, BLACK)
+
+                # Desenhando o botão na tela
+                pygame.draw.rect(screen, WHITE, button)
+
+                screen.blit(text3, (60, 680))
+
                 for evento in pygame.event.get():
                     if evento.type == pygame.QUIT:
                         pygame.quit()
                         exit()
                     elif evento.type == pygame.MOUSEBUTTONDOWN:
+                        mouse = pygame.mouse.get_pos()
+                        if button.collidepoint(mouse):
+                            running = False
                         # Verificando se é a vez do jogador um
-                        if player_one_turn:
+                        elif player_one_turn:
                             # Permita que o jogador um faça uma jogada
                             cont = 1
                             while cont:
@@ -268,7 +284,6 @@ while True:
                                 show_board(board, screen)
                                 pygame.display.update()
                                 print("Jogador 1 venceu!")
-                                running = False
                             elif winner == player_two:
                                 stats["player_two_wins"] += 1
 
@@ -291,7 +306,6 @@ while True:
                                 show_board(board, screen)
                                 pygame.display.update()
                                 print("Jogador 2 venceu!")
-                                running = False
                             else:
                                 stats["draws"] += 1
 
@@ -314,7 +328,6 @@ while True:
                                 show_board(board, screen)
                                 pygame.display.update()
                                 print("Empate!")
-                                running = False
 
         elif button_rect_hist.collidepoint(mouse_pos):
             with open("stats.bin", "rb") as f:
